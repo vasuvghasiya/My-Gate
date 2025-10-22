@@ -1,0 +1,666 @@
+{
+  "info": {
+    "name": "MyGate Community App API",
+    "description": "API collection for MyGate community management application",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.0.0"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{firebase_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3001",
+      "type": "string"
+    },
+    {
+      "key": "firebase_token",
+      "value": "",
+      "type": "string",
+      "description": "Firebase ID token from authentication"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Verify Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{firebase_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/auth/verify",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "verify"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create User Profile",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{firebase_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"displayName\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"phone\": \"+1234567890\",\n  \"householdId\": \"household_001\",\n  \"roles\": [\"resident\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/create-profile",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "create-profile"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update User Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{firebase_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"displayName\": \"John Doe Updated\",\n  \"phone\": \"+1234567891\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/profile",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "profile"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Visitors",
+      "item": [
+        {
+          "name": "Create Visitor",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{firebase_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Ramesh Kumar\",\n  \"phone\": \"+9876543210\",\n  \"purpose\": \"Delivery - Amazon package\",\n  \"notes\": \"Expected around 10 AM\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/visitors",
+              "host": ["{{base_url}}"],
+              "path": ["api", "visitors"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Visitors",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{firebase_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/visitors?status=pending&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["api", "visitors"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "pending",
+                  "description": "Filter by status"
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Maximum results"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Visitor by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{firebase_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/visitors/:visitorId",
+              "host": ["{{base_url}}"],
+              "path": ["api", "visitors", ":visitorId"],
+              "variable": [
+                {
+                  "key": "visitorId",
+                  "value": "visitor_123",
+                  "description": "Visitor ID"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Approve Visitor",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{firebase_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/visitors/:visitorId/approve",
+              "host": ["{{base_url}}"],
+              "path": ["api", "visitors", ":visitorId", "approve"],
+              "variable": [
+                {
+                  "key": "visitorId",
+                  "value": "visitor_123",
+                  "description": "Visitor ID"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Deny Visitor",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{firebase_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Not expected visitor\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/visitors/:visitorId/deny",
+              "host": ["{{base_url}}"],
+              "path": ["api", "visitors", ":visitorId", "deny"],
+              "variable": [
+                {
+                  "key": "visitorId",
+                  "value": "visitor_123",
+                  "description": "Visitor ID"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Check In Visitor",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{firebase_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/visitors/:visitorId/checkin",
+              "host": ["{{base_url}}"],
+              "path": ["api", "visitors", ":visitorId", "checkin"],
+              "variable": [
+                {
+                  "key": "visitorId",
+                  "value": "visitor_123",
+                  "description": "Visitor ID"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Check Out Visitor",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{firebase_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/visitors/:visitorId/checkout",
+              "host": ["{{base_url}}"],
+              "path": ["api", "visitors", ":visitorId", "checkout"],
+              "variable": [
+                {
+                  "key": "visitorId",
+                  "value": "visitor_123",
+                  "description": "Visitor ID"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "AI Chat",
+      "item": [
+        {
+          "name": "Send Chat Message",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{firebase_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"approve Ramesh\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/chat",
+              "host": ["{{base_url}}"],
+              "path": ["api", "chat"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Chat History",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{firebase_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/chat/history?limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "chat", "history"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "20",
+                  "description": "Maximum messages"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Save Chat Message",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{firebase_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"approve Ramesh\",\n  \"response\": \"I've approved Ramesh Kumar for you.\",\n  \"toolCalls\": []\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/chat/save",
+              "host": ["{{base_url}}"],
+              "path": ["api", "chat", "save"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Notifications",
+      "item": [
+        {
+          "name": "Send Notification",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{firebase_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"visitor_created\",\n  \"householdId\": \"household_001\",\n  \"data\": {\n    \"visitorId\": \"visitor_123\",\n    \"visitorName\": \"Ramesh Kumar\",\n    \"purpose\": \"Delivery\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/notify",
+              "host": ["{{base_url}}"],
+              "path": ["api", "notify"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Register FCM Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{firebase_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"token\": \"fcm_token_here\",\n  \"deviceType\": \"web\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/notify/register-token",
+              "host": ["{{base_url}}"],
+              "path": ["api", "notify", "register-token"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Unregister FCM Token",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{firebase_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"token\": \"fcm_token_here\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/notify/unregister-token",
+              "host": ["{{base_url}}"],
+              "path": ["api", "notify", "unregister-token"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Notification Settings",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{firebase_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/notify/settings",
+              "host": ["{{base_url}}"],
+              "path": ["api", "notify", "settings"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Notification Settings",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{firebase_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"notificationSettings\": {\n    \"visitorUpdates\": true,\n    \"securityAlerts\": true,\n    \"announcements\": false\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/notify/settings",
+              "host": ["{{base_url}}"],
+              "path": ["api", "notify", "settings"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{firebase_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/users",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "users"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{firebase_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"displayName\": \"Updated Name\",\n  \"roles\": [\"admin\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/users/:userId",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "users", ":userId"],
+              "variable": [
+                {
+                  "key": "userId",
+                  "value": "user_123",
+                  "description": "User ID"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Audit Events",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{firebase_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/audit?type=visitor_created&limit=50",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "audit"],
+              "query": [
+                {
+                  "key": "type",
+                  "value": "visitor_created",
+                  "description": "Filter by event type"
+                },
+                {
+                  "key": "limit",
+                  "value": "50",
+                  "description": "Maximum results"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Statistics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{firebase_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/stats",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "stats"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Health Check",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": ["{{base_url}}"],
+              "path": ["health"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

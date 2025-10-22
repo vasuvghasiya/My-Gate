@@ -1,0 +1,29 @@
+{
+  "name": "mygate-community-app",
+  "version": "1.0.0",
+  "description": "MyGate-style community app with AI copilot and visitor management",
+  "main": "server/index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
+    "server:dev": "cd server && npm run dev",
+    "client:dev": "cd client && npm run dev",
+    "build": "cd client && npm run build",
+    "start": "cd server && npm start",
+    "setup": "npm install && cd server && npm install && cd ../client && npm install"
+  },
+  "keywords": [
+    "community",
+    "visitor-management",
+    "ai",
+    "firebase"
+  ],
+  "author": "Deep Learning Titans",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "axios": "^1.12.2"
+  }
+}
